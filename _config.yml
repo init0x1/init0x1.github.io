@@ -21,7 +21,8 @@ timezone: Africa/Cairo
 
 title: 0xAbdoAli                          # the main title
 
-tagline: A text-focused Jekyll theme   # it will display as the sub-title
+tagline: Backend Developer | Bug Bounty Hunter
+   # it will display as the sub-title
 
 description: >-                        # used by seo meta and the atom feed
   A minimal, responsive, and powerful Jekyll theme for presenting professional writing.
