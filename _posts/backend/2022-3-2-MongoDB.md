@@ -270,3 +270,224 @@ async function main() {
 main().catch(console.error);
 ```
 the `find` method with a `query object` that specifies the condition `age > 30`
+
+
+## MongoDB Sort
+
+Sorting is an important aspect of querying data in MongoDB. we can use the `sort()` method to sort the documents returned by a MongoDB query.
+
+The `sort()` method accepts an object that defines the fields to sort on and the sort order (ascending or descending). The keys of the object correspond to the fields to sort on, and the values are either` 1 ` for `ascending order` or `-1` for `descending order.`
+Here is an example of using the `sort()` method to sort documents in a MongoDB collection in descending order based on the `age` field:
+
+```js
+const { MongoClient } = require('mongodb');
+
+const uri = 'mongodb://127.0.0.1:27017/mydb';
+
+async function main() {
+  const client = new MongoClient(uri);
+
+  try {
+    await client.connect();
+
+    const db = client.db('mydb');
+    const collection = db.collection('users');
+
+    const result = await collection.find().sort({ age: -1 }).toArray();
+
+    console.log(result);
+  } catch (err) {
+    console.log(err);
+  } finally {
+    await client.close();
+  }
+}
+
+main().catch(console.error);
+```
+We call the `find()` method to retrieve all documents in the collection and pass the `sort()` method to sort the documents in `descending order based on the age field`. Finally, we call the `toArray()` method to convert the result cursor to an array of documents and log the result to the console.
+
+## MongoDB Delete
+
+you can delete one or more documents from a collection using the `deleteOne()` and `deleteMany()` methods respectively.
+
+The `deleteOne()` method deletes the `first document that matches the specified criteria,` while the `deleteMany()` method deletes `all documents that match the specified criteria.`
+
+Here's an example of how to use the `deleteOne()` method:
+
+```js
+const { MongoClient } = require('mongodb');
+
+// Define the connection URL
+const uri = 'mongodb://127.0.0.1:27017/mydb';
+
+async function main() {
+  const client = new MongoClient(uri);
+
+  try {
+    // Connect to the MongoDB server
+    await client.connect();
+
+    // Use database named "mydb"
+    const db = client.db('mydb');
+    
+    // Get the "users" collection
+    const collection = db.collection('users');
+
+    // Delete the first document where the "name" field equals "Abdo"
+    const result = await collection.deleteOne({ name: 'Abdo' });
+    console.log(`${result.deletedCount} document(s) deleted`);
+
+  } catch (err) {
+    console.log(err);
+  } finally {
+    // Close the database connection
+    await client.close();
+  }
+}
+
+main().catch(console.error);
+```
+And here's an example of how to use the `deleteMany()` method:
+```js
+const { MongoClient } = require('mongodb');
+
+// Define the connection URL
+const uri = 'mongodb://127.0.0.1:27017/mydb';
+
+async function main() {
+  const client = new MongoClient(uri);
+
+  try {
+    // Connect to the MongoDB server
+    await client.connect();
+
+    // Use database named "mydb"
+    const db = client.db('mydb');
+    
+    // Get the "users" collection
+    const collection = db.collection('users');
+
+    // Delete all documents where the "age" field is greater than or equal to 30
+    const result = await collection.deleteMany({ age: { $gte: 30 } });
+    console.log(`${result.deletedCount} document(s) deleted`);
+
+  } catch (err) {
+    console.log(err);
+  } finally {
+    // Close the database connection
+    await client.close();
+  }
+}
+
+main().catch(console.error);
+```
+## MongoDB Drop
+
+The `drop()` method in MongoDB is used to remove a `collection or a database from the server`. Here's an example of using the drop method to delete a collection in Node.js:
+```js
+const { MongoClient } = require('mongodb');
+
+// Define the connection URL and the database name
+const uri = 'mongodb://localhost:27017/mydb';
+
+async function main() {
+  const client = new MongoClient(uri);
+
+  try {
+    // Connect to the MongoDB server
+    await client.connect();
+
+    // Use database named "mydb"
+    const db = client.db('mydb');
+
+    // Delete a collection named "users"
+    await db.collection('users').drop();
+    console.log('Collection deleted: users');
+
+  } catch (err) {
+    console.log(err);
+  } finally {
+    // Close the database connection
+    await client.close();
+  }
+}
+
+main().catch(console.error);
+```
+## MongoDB Update
+
+updating a document can be done using the `updateOne()` or `updateMany()` method. The `updateOne()` method `updates a single document that matches the specified filter`, while the `updateMany()` method `updates multiple documents that match the specified filter.`
+
+Here's an example of how to use `updateOne()` to update a single document in a collection:
+```js
+
+const { MongoClient } = require('mongodb');
+
+// Define the connection URL
+const uri = 'mongodb://127.0.0.1:27017/mydb';
+
+async function main() {
+  const client = new MongoClient(uri);
+
+  try {
+    // Connect to the MongoDB server
+    await client.connect();
+    console.log('Connected to MongoDB server');
+
+    // Use database named "mydb"
+    const db = client.db('mydb');
+
+    // Get the "users" collection
+    const usersCollection = db.collection('users');
+
+    // Update the first user document that matches the filter
+    const filter = { name: 'Abdo' };
+    const update = { $set: { age: 22 } };
+    const result = await usersCollection.updateOne(filter, update);
+
+    console.log(`${result.modifiedCount} document(s) updated`);
+
+  } catch (err) {
+    console.log(err);
+  } finally {
+    // Close the database connection
+    await client.close();
+  }
+}
+
+main().catch(console.error);
+```
+we can use the `updateMany()` method to update multiple documents that match the specified filter. The syntax is similar to `updateOne()`, except that `updateMany()` `updates all documents that match the filter, not just the first one.`
+
+## MongoDB Limit 
+
+`limit()` is used to limit the number of documents returned by a query. The `limit()` method is used in conjunction with `find() or findOne()` to return only the specified number of documents.
+
+Here is an example of using limit() in Node.js to limit the number of documents returned by a query:
+```js
+const { MongoClient } = require('mongodb');
+
+const uri = 'mongodb://localhost:27017/mydb';
+
+async function main() {
+  const client = new MongoClient(uri);
+
+  try {
+    await client.connect();
+    const database = client.db('mydb');
+    const collection = database.collection('users');
+
+    // Find all documents in the collection and limit the result to 2 documents
+    const result = await collection.find().limit(2).toArray();
+    console.log(result);
+    
+  } catch (err) {
+    console.log(err);
+  } finally {
+    await client.close();
+  }
+}
+
+main().catch(console.error);
+```
