@@ -283,3 +283,46 @@ app.listen(3000, () => {
 });
 ```
 In this example, we defined a middleware function `logger` that logs the incoming requests with the current timestamp, HTTP method, and URL. We then used the `app.use()` method to apply the logger middleware to all routes.
+
+
+### Using Middleware
+
+There are two ways of applying middleware:
+
+#### Application/route level
+Applies the middleware to an entire application or the entirety of a route on either the entry point application object, or to specific routes (view working with routes).
+
+```ts
+.use();
+```
+The `.use();` method is a method that can be applied to the application object or to route objects. It is used for applying middleware and can take in a route, and middleware as arguments
+
+```ts
+app.use(middleware);
+```
+
+### Endpoint level
+Applies middleware to a specific endpoint.
+
+```ts
+students.get('/', middleware, (req, res) => { // do stuff });
+```
+### Applying Multiple Middleware
+
+It's possible to apply multiple middlewares to an application/route our endpoint.
+
+Using an Array
+
+```ts
+const middleware = [cors, logger];
+
+app.use(middleware); // app level
+students.get('/', middleware, (req, res) => { // do stuff }); // endpoint level
+```
+
+Listing Middleware
+
+```ts
+app.use(cors(), logger); // app level 
+students.get('/', cors(), logger, (req, res) => { // do stuff }); // endpoint level
+```
