@@ -326,3 +326,38 @@ Listing Middleware
 app.use(cors(), logger); // app level 
 students.get('/', cors(), logger, (req, res) => { // do stuff }); // endpoint level
 ```
+
+## router
+
+### router.route()
+
+the `router.route()` method is used to create a chainable route handler for a specific route path. It allows you to define multiple HTTP methods (such as GET, POST, PUT, DELETE) for a single route path in a concise manner.
+
+Here's an example that demonstrates how to use `router.route()`:
+```js
+const express = require('express');
+const router = express.Router();
+
+// Define the route handlers using router.route()
+router.route('/api/users')
+  .get((req, res) => {
+    // Handle GET request for /api/users
+    res.send('Get users');
+  })
+  .post((req, res) => {
+    // Handle POST request for /api/users
+    res.send('Create user');
+  })
+  .put((req, res) => {
+    // Handle PUT request for /api/users
+    res.send('Update user');
+  })
+  .delete((req, res) => {
+    // Handle DELETE request for /api/users
+    res.send('Delete user');
+  });
+
+// Use the router in your application
+app.use(router);
+```
+In the above example, the `router.route('/api/users')` creates a route handler for the `'/api/users'` path. The subsequent HTTP methods (get, post, put, delete) are chained to the route handler using dot notation.
