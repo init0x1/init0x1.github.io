@@ -23,6 +23,11 @@ we can create our database with this command :
 ```sql
 CREATE DATABASE my_database;
 ```
+### Connect to database:
+After creating a database, you should connect with them to perform databases operations 
+```sql
+\c my_database
+```
 
 ### Creating tables: 
 After creating a database, you can create tables to store data. A table consists of columns and rows. Here's an example of how to create a table:
@@ -63,6 +68,21 @@ Here are some other common data types you might encounter in PostgreSQL:
 - `TIME`: Stores a time of day without a date component.
 - `ARRAY`: Stores an array (or list) of values of a particular data type. For example, you could have an array of integers, an array of strings, etc.
 - `JSON`: Stores a JSON object or array.
+
+### Some Common psql commands
+
+- List all databases:
+```sql
+\l
+```
+- List all tables in the current database:
+```sql
+\dt
+```
+- Exit the PostgreSQL shell:
+```sql
+\q
+```
 
 ### CRUD Operations 
 
