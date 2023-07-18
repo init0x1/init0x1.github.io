@@ -306,6 +306,8 @@ When implemented correctly, JSON Web Tokens provide a secure way to identify the
 
 # Security Issues with JWT
 
+https://www.websecuritylens.org/common-jwt-implementation-mistakes-and-how-to-exploit-them/
+
 ## Tampering with the "alg" field
 - Attackers can forge their own tokens by tampering with the "alg" field of the JWT header.
 - The "alg" field lists the algorithm used to encode the signature and if the application does not restrict the algorithm type, attackers can specify which algorithm to use.
