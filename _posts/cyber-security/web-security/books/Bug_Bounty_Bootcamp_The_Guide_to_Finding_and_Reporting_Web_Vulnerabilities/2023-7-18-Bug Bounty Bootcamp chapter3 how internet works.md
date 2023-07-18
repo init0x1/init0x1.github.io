@@ -41,7 +41,7 @@ The Internet consists of two types of devices:
 - By convention, port 80 is used for HTTP messages, while port 443 is used for HTTPS (the encrypted version of HTTP).
 
 
-![internet Ports]()
+![internet Ports](../../../../../assets/images/internetPorts.png)
 
 
 For example, a client connecting to port 80 would be understood by the web server as a request for web services. By convention, port 80 is used for HTTP messages and port 443 is used for HTTPS (the encrypted version of HTTP).
@@ -195,10 +195,10 @@ The hexadecimal encoding of "Hello World" would be:
 Session management is a process that allows a server to handle multiple requests from the same user without asking for login credentials each time. 
 
 A new session is created each time a user logs in to a website, and the server assigns a session ID for the user's browser to serve as proof of identity. The session ID is a long and unpredictable sequence designed to be unguessable. 
-![createSessionId]()
+![createSessionId](../../../../../assets/images/creates_a_session_id.png)
 
 Most websites use cookies to communicate session information in HTTP requests. HTTP cookies are small pieces of data that the web server sends to the user's browser. When the user logs in, the server creates a session and sends the session ID to the browser as a cookie. The browser then stores the cookie and includes it in every request to the same server, allowing the server to track the user's session. 
-![UseSessionId]()
+![UseSessionId](../../../../../assets/images/use_session_id.png)
 
 When the user logs out, the server invalidates the session cookie so that it cannot be used again. The next time the user logs in, the server will create a new session and associated session cookie. 
 
@@ -278,7 +278,7 @@ Example:
 ```
 eyBhbGcgOiBIUzI1NiwgdHlwIDogSldUIH0K.eyB1c2VyX25hbWUgOiBhZG1pbiB9Cg.4Hb/6ibbViPOzq9SJflsNGPWSk6B8F6EqVrkNjpXh7M
 ```
-![jwt]()
+![jwt](../../../../../assets/images/jwt.png)
 
 
 ## Advantages and Security
