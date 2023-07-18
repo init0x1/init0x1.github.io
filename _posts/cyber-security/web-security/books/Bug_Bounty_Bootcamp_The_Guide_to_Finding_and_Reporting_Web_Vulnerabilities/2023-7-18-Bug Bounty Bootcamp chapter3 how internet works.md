@@ -156,6 +156,25 @@ HTTP response headers
 HTTP response body
 Contains the actual content of the web page, such as HTML and JavaScript code. The browser uses this information to render the web page for the user.
 
+### what is Content-Security-Policy(CSP):
+Content-Security-Policy (CSP) is a security feature that helps prevent cross-site scripting (XSS) and other code injection attacks by allowing you to specify which sources of content are trusted by your web application. 
+
+For example, you can use CSP to specify that your web application should only load scripts and stylesheets from trusted sources, such as your own domain or a trusted content delivery network (CDN). You can also use CSP to prevent your web application from loading content from untrusted sources, such as third-party domains or untrusted CDNs.
+
+CSP works by allowing you to specify a policy that defines which sources of content are trusted by your web application. This policy is then enforced by the user's browser, which will block any content that does not meet the policy's requirements.
+
+Here is an example of how CSP can be used to prevent XSS attacks:
+
+Suppose you have a web application that allows users to post comments. Without CSP, an attacker could inject malicious JavaScript code into a comment that would be executed by other users' browsers when they view the comment. This could allow the attacker to steal sensitive information or perform other malicious actions.
+
+To prevent this type of attack, you can use CSP to specify that your web application should only load scripts from trusted sources. For example, you could use the following CSP policy:
+```http
+Content-Security-Policy: script-src ‘self’;
+```
+
+This policy specifies that scripts should only be loaded from the same domain as the web page itself. Any attempt to load a script from an external domain would be blocked by the user's browser.
+
+
 ## Content Encoding
 
 Data transferred in HTTP requests and responses isn't always transmitted in plain text form, as websites often encode their messages to prevent data corruption. Encoding ensures reliable transfer of binary data across machines with limited support for different content types. Common encoding methods include Base64 encoding, Base64url encoding, hex encoding, and URL encoding.
