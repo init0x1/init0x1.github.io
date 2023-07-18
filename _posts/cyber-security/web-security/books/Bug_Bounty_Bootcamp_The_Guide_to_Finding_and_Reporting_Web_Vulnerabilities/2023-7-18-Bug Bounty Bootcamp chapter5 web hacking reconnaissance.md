@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Chapter 5 WEB HACKING RECONNAISSANCE
+title: WEB HACKING RECONNAISSANCE
 date: 2023-07-18
 categories: [cybersecurity, web-security,Bug_Bounty_Bootcamp_The_Guide_to_Finding_and_Reporting_Web_Vulnerabilities,web-security, reconnaissance, google-dorking, subdomain-enumeration, service-enumeration, directory-brute-forcing, third-party-hosting,]
 ---
@@ -200,3 +200,24 @@ These are some additional ways to find S3 buckets of a company:
 - Use tools like Lazys3 or Bucket Stream to brute-force buckets by using permutations of common bucket names or based on domain names found on the certificates.
 - Use the AWS command line tool to access the buckets directly from the terminal by installing it using "pip install awscli" and configuring it to work with AWS. Then, use the "aws s3" command to list or copy files from the buckets.
 - Be careful not to delete important company resources during testing and always report any leaked sensitive information.
+
+## GitHub Recon
+
+GitHub Recon is a process of searching an organization's GitHub repositories for sensitive data, accidental commits, and information that could lead to vulnerability discovery. Here are the key steps involved in GitHub Recon:
+
+1. Find Relevant GitHub Usernames: Search for the organization's name or product names on GitHub to locate usernames relevant to the target. Check the GitHub accounts of known employees as well.
+
+2. Audit User Pages: Visit the pages of identified usernames and find repositories related to the projects being tested. Record these repositories and note the usernames of the organization's top contributors for further exploration.
+
+3. Dive into the Code: Explore each repository and pay attention to the Issues and Commits sections. These sections may reveal unresolved bugs, problematic code, recent code changes, and security patches. Look for protection mechanisms and attempt to bypass them. Search the Code section for potentially vulnerable code snippets.
+
+4. Check Issues, Commits, Blame, and History: Analyze the Issues and Commits sections for information leaks and potential vulnerabilities. Use the Blame and History sections to track the development of specific files and identify any hardcoded secrets like API keys, encryption keys, or database passwords.
+
+5. Search for Leaked Credentials: Search the organization's repositories for terms like "key," "secret," and "password" to locate hardcoded user credentials that could provide access to internal systems. Verify the validity of leaked credentials using tools like KeyHacks.
+
+6. Identify Sensitive Functionalities: Look for code related to authentication, password reset, state-changing actions, and private info reads. Pay attention to code dealing with user input, such as HTTP request parameters, headers, paths, database entries, file reads, and uploads, as they can be potential entry points for attackers. Also, search for configuration files and old endpoints for further review.
+
+7. Address Outdated Dependencies: Identify dependencies and imports being used in the code and check if they are outdated. Record any outdated dependencies, as they may be vulnerable to publicly disclosed vulnerabilities that could work on the target.
+
+-  Utilize Recon Tools: Automation tools like Gitrob and TruffleHog can streamline the GitHub recon process. Gitrob locates potentially sensitive files pushed to public repositories, while TruffleHog specializes in finding secrets in repositories using regex searches and high-entropy string scanning.
+
