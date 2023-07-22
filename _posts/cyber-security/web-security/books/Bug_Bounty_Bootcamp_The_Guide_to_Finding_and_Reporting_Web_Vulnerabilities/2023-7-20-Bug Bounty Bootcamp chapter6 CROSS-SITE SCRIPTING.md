@@ -67,7 +67,7 @@ Any user who visits the blog post will now receive the following within the appl
 ```
 ## Finding Stored XSS Vulnerabilities
 
-To find stored XSS vulnerabilities, you need to test all relevant entry points and exit points in the application. Entry points are where the attacker can submit data to the application, such as URL parameters, form inputs, or HTTP headers. Exit points are where the data is displayed to other users, such as web pages, emails, or logs.
+To find stored XSS vulnerabilities, you need to `test all relevant entry points and exit points` in the application. `Entry points are where the attacker can submit data to the application, such as URL parameters, form inputs, or HTTP headers.` `Exit points are where the data is displayed to other users, such as web pages, emails, or logs.`
 
 1. **Identify Entry and Exit Points:**
    Entry points are areas where users can input data, and exit points are places where that data is displayed to others. For example, consider a blog post comment feature, where users can input comments, and those comments are displayed on the blog post page.
@@ -84,21 +84,41 @@ To find stored XSS vulnerabilities, you need to test all relevant entry points a
 
 ### Entry Point to application can be like : 
    
-- Parameters in the URL Query String and Message Body:
+- `Parameters in the URL Query String and Message Body`:
 
-In a web application, there might be a search functionality that allows users to search for products using the URL query string. For example: https://example.com/search?keyword=user_input, where user_input is the search term provided by the user. If the application doesn't properly validate and sanitize this input, it becomes vulnerable to XSS attacks. An attacker could inject malicious scripts, like <script>alert('XSS');</script>, into the search term. If the application reflects this input back to other users without proper encoding, the script could execute in their browsers.
+In a web application, there might be a `search` functionality that allows users to search for products using the URL query string. For example: https://example.com/search?keyword=user_input, where `user_input` is the search term provided by the user. If the application doesn't properly validate and sanitize this input, it becomes vulnerable to XSS attacks. An attacker could inject malicious scripts, like <script>alert('XSS');</script>, into the search term. If the application reflects this input back to other users without proper encoding, the script could execute in their browsers.
 
 - The URL File Path:
 
-Suppose a web application serves different pages based on the URL file path, like https://example.com/pages/page1.html, where page1.html represents a specific page on the website. If the application fails to handle the file path securely, an attacker could manipulate it and attempt to inject scripts. For example, an attacker might try to access a non-existing page like https://example.com/pages/<script>alert('XSS');</script>, hoping the application reflects the input in the response and triggers an XSS vulnerability.
+Suppose a web application serves different pages based on the URL file path, like https://example.com/pages/page1.html, where page1.html represents a specific page on the website. If the application fails to handle the file path securely, an attacker could manipulate it and attempt to inject scripts. For example, an attacker might try to access a non-existing page like `https://example.com/pages/<script>alert('XSS');</script>`, hoping the application reflects the input in the response and triggers an XSS vulnerability.
 
 - HTTP Request Headers:
 
-Although HTTP request headers are not typically exploited for reflected XSS, they can be entry points for other types of attacks or security issues. For instance, an application might rely on a custom request header for authentication or session management. If the application doesn't validate and handle these headers securely, attackers might manipulate them to gain unauthorized access or perform malicious actions.
+Although HTTP request headers are not typically exploited for `reflected XSS`, they can be entry points for other types of attacks or security issues. For instance, an application might rely on a custom request header for authentication or session management. If the application doesn't validate and handle these headers securely, attackers might manipulate them to gain unauthorized access or perform malicious actions.
+for a website that allow user to insert comment the http request would be like this : 
+```http
+POST /post/comment HTTP/1.1
+Host: vulnerable-website.com
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 64
+
+comment=<script>alert('XSS Attack!')</script>&name=Attacker
+```
+In above example, attacker is trying to inject script into server side code which will execute when page loads
 
 - Out-of-Band Routes:
 
 Consider a web application that aggregates news articles from external websites. The application processes and displays these articles on its platform. If the application fails to sanitize data received from external sources, an attacker could inject malicious content into these articles. For instance, the attacker might compromise an external news source and inject a malicious script into one of the articles. When the web application displays this article to its users, it unknowingly executes the malicious script, leading to an XSS attack.
 
+Suppose the application displays the article content within an HTML element like this:
 
+```html
+<div class="article-content">
+  [Article Content Goes Here]
+</div>
+```
+The attacker identifies an external website that the vulnerable application fetches articles from and finds a way to inject a malicious script into the article content on that website.
+- Attacker injects a malicious script on an external website
+- The vulnerable application fetches and displays the article
+- XSS Attack Execution
 
