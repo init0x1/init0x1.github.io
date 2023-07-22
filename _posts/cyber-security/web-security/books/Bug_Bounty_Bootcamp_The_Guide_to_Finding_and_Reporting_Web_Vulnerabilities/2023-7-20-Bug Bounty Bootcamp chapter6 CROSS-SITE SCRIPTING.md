@@ -33,7 +33,49 @@ There are three main types of XSS attacks:
 - Stored XSS: The attacker’s code is stored on the server, such as in a database, a comment field, or a profile. The user views the affected web page and executes the code without any interaction.
 - DOM-based XSS: The attacker’s code is executed in the user’s browser by manipulating the DOM (Document Object Model) of the web page. The code never leaves the browser and does not involve the server.
 
-## What is Stored Cross-Site Scripting?
+## Reflected XSS
+
+### What is Reflected Cross-Site Scripting?
+Reflected cross-site scripting (or XSS) arises `when an application receives data in an HTTP request and includes that data within the immediate response in an unsafe way.`
+
+Suppose a website has a `search function` which receives the user-supplied search term in a URL parameter:
+
+`https://insecure-website.com/search?term=gift`
+The application echoes the supplied search term in the response to this URL:
+
+```
+<p>You searched for: gift</p>
+```
+Assuming the application doesn't perform any other processing of the data, an attacker can construct an attack like this:
+
+`https://insecure-website.com/search?term=<script>/*+Bad+stuff+here...+*/</script>`
+This URL results in the following response:
+
+`<p>You searched for: <script>/* Bad stuff here... */</script></p>`
+If another user of the application requests the attacker's URL, then the script supplied by the attacker will execute in the victim user's browser, in the context of their session with the application.
+
+## Impact of Reflected XSS Attacks
+
+When an attacker can control a script executed in the victim's browser through reflected XSS, they can fully compromise the user. The consequences include:
+
+1. Perform Actions: The attacker can perform any action within the application that the user is capable of doing.
+
+2. View Information: The attacker can access any information that the user can view.
+
+3. Modify Data: The attacker can modify any information that the user has permission to change.
+
+4. Impersonation: The attacker can initiate interactions with other users, including malicious attacks that appear to originate from the initial victim.
+
+Attack Delivery:
+Reflected XSS attacks require a means to deliver the malicious link to the victim. Attackers can place links on websites they control, on other platforms that allow user-generated content, or send them via emails, tweets, or messages. The attack can target specific users or be indiscriminate against any application users.
+
+Severity:
+The need for an external delivery mechanism generally makes the impact of reflected XSS attacks less severe than stored XSS, where self-contained attacks are delivered within the vulnerable application itself.
+
+
+## Stored XSS
+
+### What is Stored Cross-Site Scripting?
 
 Stored cross-site scripting (also known as second-order or persistent XSS) arises when an application receives data from an untrusted source and includes that data within its later HTTP responses in an unsafe way.
 
@@ -121,4 +163,55 @@ The attacker identifies an external website that the vulnerable application fetc
 - Attacker injects a malicious script on an external website
 - The vulnerable application fetches and displays the article
 - XSS Attack Execution
+
+
+## DOM-based XSS
+
+### what is DOM-XSS :
+
+DOM-based cross-site scripting (XSS) occurs `when JavaScript takes data from an attacker-controllable source, like the URL, and passes it to a sink that supports dynamic code execution, such as eval() or innerHTML.` This allows attackers to execute malicious JavaScript, potentially compromising other users' accounts.
+
+Suppose you have a web page that displays a welcome message to the user based on their name, which is taken from the URL query string. For example, if the URL is `http://www.example.com/userdashboard.html?name=Bob`, then the page will show “Hi Bob”.
+
+The HTML code of the page might look something like this:
+
+```html
+<HTML>
+<TITLE>Welcome!</TITLE>
+Hi
+<SCRIPT>
+var pos = document.URL.indexOf("name=") + 5;
+document.write(document.URL.substring(pos, document.URL.length));
+</SCRIPT>
+<BR>
+Welcome to our website ...
+</HTML>
+
+```
+As you can see, the page uses the `document.write` function to write the user name directly to the DOM without any validation or sanitization. This is a dangerous practice because it allows an attacker to inject arbitrary JavaScript code into the page by modifying the URL query string.
+
+For example, if the attacker crafts a malicious URL like this: `http://www.example.com/userdashboard.html?name=<script>alert('XSS')</script>`, then the page will execute the script and show an alert box with the message “XSS”. This is a simple example of a DOM XSS attack.
+
+To prevent this type of attack, you should never use `document.write` or other similar functions that support dynamic code execution. Instead, you should use safe APIs that encode or sanitize the data before writing it to the DOM, such as `document.createTextNode`, `element.textContent`, or `element.setAttribute`.
+
+
+#### Finding DOM XSS:
+
+- **Testing HTML sinks**
+
+  To test for DOM XSS in an HTML sink, place a random alphanumeric string into the source (such as `location.search`), then use developer tools to inspect the HTML and find where your string appears. Note that the browser's "View source" option won't work for DOM XSS testing because it doesn't take account of changes that have been performed in the HTML by JavaScript. 
+
+  For each location where your string appears within the DOM, you need to identify the context. Based on this context, you need to refine your input to see how it is processed. For example, if your string appears within a double-quoted attribute, then try to inject double quotes in your string to see if you can break out of the attribute.
+
+- **Testing JavaScript execution sinks**
+
+  Testing JavaScript execution sinks for DOM-based XSS is a little harder. With these sinks, your input doesn't necessarily appear anywhere within the DOM, so you can't search for it. Instead, you'll need to use the JavaScript debugger to determine whether and how your input is sent to a sink.
+
+  For each potential source, such as `location`, you first need to find cases within the page's JavaScript code where the source is being referenced. In Chrome's developer tools, you can use `Control+Shift+F` (or `Command+Alt+F` on MacOS) to search all the page's JavaScript code for the source.
+
+  Once you've found where the source is being read, you can use the JavaScript debugger to add a breakpoint and follow how the source's value is used. You might find that the source gets assigned to other variables. If this is the case, you'll need to use the search function again to track these variables and see if they're passed to a sink. When you find a sink that is being assigned data that originated from the source, you can use the debugger to inspect the value by hovering over the variable to show its value before it is sent to the sink. Then, as with HTML sinks, you need to refine your input to see if you can deliver a successful XSS attack.
+
+- **Testing for DOM XSS using DOM Invader**
+
+  Identifying and exploiting DOM XSS in the wild can be a tedious process, often requiring you to manually trawl through complex, minified JavaScript. If you use Burp's browser, however, you can take advantage of its built-in DOM Invader extension, which does a lot of the hard work for you.
 
