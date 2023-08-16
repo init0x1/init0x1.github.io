@@ -125,13 +125,7 @@ https://example.com/login?n=http://attacker.com
 1. Test for referer-based open redirects on pages found in step 1 that redirect users without a redirect URL parameter.
 
 2. Create an HTML page on a domain you own and host the following content, replacing the linked URL with the target page:
-```
-
-<html>
-<a href="https://example.com/login">Click on this link!</a>
-</html>
-
-```
+`<a href="https://example.com/login">Click on this link!</a>`
 
 Reload and visit your HTML page. Click the link and observe if you are redirected to your site automatically or after necessary user interactions.
 
