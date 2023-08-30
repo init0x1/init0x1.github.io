@@ -6,7 +6,7 @@ categories: [cybersecurity, web-security,Bug_Bounty_Bootcamp_The_Guide_to_Findin
 ---
 
 
-# Chapter 6 : CROSS-SITE SCRIPTING
+# CROSS-SITE SCRIPTING
 
 An XSS vulnerability occurs when attackers can execute custom scripts on a victim's browser. If an application fails to distinguish between user input and the legitimate code that makes up a web page, attackers can inject their own code into pages viewed by other users. The victim's browser will then execute the malicious script, which might steal cookies, leak personal information, change site contents, or redirect the user to a malicious site. These malicious scripts are often JavaScript code but can also be HTML, Flash, VBScript, or anything written in a language that the browser can execute.
 

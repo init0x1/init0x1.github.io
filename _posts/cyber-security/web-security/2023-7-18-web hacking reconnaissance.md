@@ -5,7 +5,7 @@ date: 2023-07-18
 categories: [cybersecurity, web-security,Bug_Bounty_Bootcamp_The_Guide_to_Finding_and_Reporting_Web_Vulnerabilities,web-security, reconnaissance, google-dorking, subdomain-enumeration, service-enumeration, directory-brute-forcing, third-party-hosting,]
 ---
 
-# Chapter 5: WEB HACKING RECONNAISSANCE
+#  WEB HACKING RECONNAISSANCE
 
 ## Manually Walking Through the Target
 

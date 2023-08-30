@@ -6,7 +6,7 @@ categories: [cybersecurity, web-security,Bug_Bounty_Bootcamp_The_Guide_to_Findin
 ---
 
 
-# Chapter 3: HOW THE INTERNET WORKS
+
 
 The Internet consists of two types of devices: 
 - Clients: make requests for resources or services
