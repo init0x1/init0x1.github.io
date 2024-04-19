@@ -1,6 +1,6 @@
 ## website link  
 
-https://0xabdoali.github.io/
+https://init0x1.github.io/
 
 ### run local
 
